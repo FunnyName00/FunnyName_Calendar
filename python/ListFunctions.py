@@ -8,7 +8,7 @@ class GeneralList:
 
     def editItem(self, index: int, content: str):
 
-        if index < 0 or index > len(self.items):
+        if index < 0 or index >= len(self.items):
             print("Index not in list")
 
         else:
@@ -16,18 +16,10 @@ class GeneralList:
 
     def deleteItem(self, index: int):
 
-        if index < 0 or index > len(self.items):
+        if index < 0 or index >= len(self.items):
             print("Index not in list")
-
-        confirmation = input(f"Are you sure you want to delete {self.items[index].getContent()} ? \n"\
-              "y/n \n")
-        
-        if confirmation == 'y':
-            self.items.pop(index)
-
         else:
-            print("Aborting")
-
+            self.items.pop(index)
 
     def print(self):
         print("----------------------------")

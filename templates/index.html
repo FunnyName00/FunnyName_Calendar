@@ -1,1 +1,27 @@
-hello world
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste :3</title>
+</head>
+
+<body>
+    <h2>Add new items</h2>
+    <form action="/add" method="POST">
+        <input type="text" name="user" placeholder="Your Name" required>
+        <input type="text" name="content" placeholder="What's on your mind?" required>
+        <button type="submit">Add to List</button>
+    </form>
+
+    <hr>
+
+    <h2>The List</h2>
+    <ul>
+        {% for item in items %}
+        <li>
+            <strong>{{ item.user }}:</strong> {{ item.content }} 
+            <a href="/delete/{{ loop.index0 }}" style="color: red;">[Delete]</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
