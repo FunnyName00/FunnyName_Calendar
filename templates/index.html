@@ -5,45 +5,52 @@
 </head>
 
 <body>
-    <h2>Add new items</h2>
-    <form action="/add" method="POST">
-        <select name="type" id="type-selector" onchange="toggleFields()">
-            <option value="general">General Note</option>
-            <option value="activity">Calendar Activity</option>
-            <option value="shopping">Shopping Item</option>
-        </select>
+    {% if session['username'] %}
+        <p>Logged in as: <strong>{{ session['username'] }}</strong> | <a href="/logout">Logout</a></p>
+        <a href="/logout"><button type="button">logout</button></a>
 
-        <input type="text" name="user" placeholder="User" required>
-        <input type="text" name="content" placeholder="Content" required>
+        <h2>Add new items</h2>
+        <form action="/add" method="POST">
+            <select name="type" id="type-selector" onchange="toggleFields()">
+                <option value="general">General Note</option>
+                <option value="activity">Calendar Activity</option>
+                <option value="shopping">Shopping Item</option>
+            </select>
 
-        <div id="activity-fields" style="display:none;">
-            <input type="date" name="date">
-            <input type="text" name="place" placeholder="Location">
-        </div>
 
-        <button type="submit">Save</button>
-    </form>
+            <input type="text" name="content" placeholder="Content" required>
 
-    <script>
-        function toggleFields() {
-            var type = document.getElementById("type-selector").value;
-            document.getElementById("activity-fields").style.display = (type === "activity") ? "block" : "none";
-        }
-    </script>
+            <div id="activity-fields" style="display:none;">
+                <input type="date" name="date">
+                <input type="text" name="place" placeholder="Location">
+            </div>
 
-    <hr>
+            <button type="submit">Save</button>
+        </form>
 
-    <h2>The List</h2>
-    <ul>
-        {% for item in items %}
-            <li>
-                <strong>[{{ item.item_type }}]</strong> {{ item.content }}
-                {% if item.item_type == 'activity' %}
-                    <small>at {{ item.place }} on {{ item.date }}</small>
-                {% endif %}
-                <a href="/delete/{{ item.id }}">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
+        <script>
+            function toggleFields() {
+                var type = document.getElementById("type-selector").value;
+                document.getElementById("activity-fields").style.display = (type === "activity") ? "block" : "none";
+            }
+        </script>
+
+        <hr>
+
+        <h2>List</h2>
+        <ul>
+            {% for item in items %}
+                <li>
+                    <strong>[{{ item.item_type }}]</strong> {{ item.content }} ({{item.user}}) 
+                    {% if item.item_type == 'activity' %}
+                        <small>at {{ item.place }} on {{ item.date }}</small>
+                    {% endif %}
+                    <a href="/delete/{{ item.id }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You must <a href="/login">Login</a> to add items.</p>
+    {% endif %}
 </body>
 </html>
