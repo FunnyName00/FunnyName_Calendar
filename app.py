@@ -20,7 +20,8 @@ class GeneralItem(db.Model):
     user = db.Column(db.String(100), nullable=False)
     content = db.Column(db.String(500), nullable=False)
 
-    date = db.Column(db.String(100), nullable=True)
+    start = db.Column(db.String(100), nullable=True)
+    end = db.Column(db.String(100), nullable=True)
     place = db.Column(db.String(100), nullable=True)
 
     def __repr__(self):
@@ -62,7 +63,8 @@ def add_item():
     new_item = GeneralItem(user=user, content=content, item_type=item_type)
 
     if item_type == 'activity':
-        new_item.date=request.form.get('date')
+        new_item.start=request.form.get('start')
+        new_item.end=request.form.get('end')
         new_item.place=request.form.get('place')
 
     db.session.add(new_item) 
@@ -76,6 +78,13 @@ def delete_item(id):
     db.session.delete(item_to_delete)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

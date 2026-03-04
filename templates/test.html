@@ -1,0 +1,21 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/datepicker-lib.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+    <select name="type" id="type-selector">
+        <option value="general">General Note</option>
+        <option value="activity">Calendar Activity</option>
+        <option value="shopping">Shopping Item</option>
+    </select>
+
+    <div id="activity-fields" style="display:none;">
+        <label>When:</label>
+        <input type="text" id="example" name="date" placeholder="YYYY-MM-DD HH:mm" readonly>
+        
+        <label>Where:</label>
+        <input type="text" name="place" placeholder="Location">
+    </div>
+
+</body>

@@ -2,12 +2,14 @@
 <html>
 <head>
     <title>Liste :3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/datepicker-lib.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 
 <body>
     {% if session['username'] %}
         <p>Logged in as: <strong>{{ session['username'] }}</strong> | <a href="/logout">Logout</a></p>
-        <a href="/logout"><button type="button">logout</button></a>
 
         <h2>Add new items</h2>
         <form action="/add" method="POST">
@@ -20,8 +22,16 @@
 
             <input type="text" name="content" placeholder="Content" required>
 
+
+            
             <div id="activity-fields" style="display:none;">
-                <input type="date" name="date">
+                <label>From :</label>
+                <input type="text" id="example" name="start" placeholder="YYYY-MM-DD HH:mm" readonly>
+
+                <label>To :</label>
+                <input type="text" id="example" name="end" placeholder="YYYY-MM-DD HH:mm" readonly>
+
+                <label>Location:</label>
                 <input type="text" name="place" placeholder="Location">
             </div>
 
@@ -43,12 +53,14 @@
                 <li>
                     <strong>[{{ item.item_type }}]</strong> {{ item.content }} ({{item.user}}) 
                     {% if item.item_type == 'activity' %}
-                        <small>at {{ item.place }} on {{ item.date }}</small>
+                        <small>at {{ item.place }} from {{ item.start }} to {{ item.end }}</small>
                     {% endif %}
                     <a href="/delete/{{ item.id }}">Delete</a>
                 </li>
             {% endfor %}
         </ul>
+
+        
     {% else %}
         <p>You must <a href="/login">Login</a> to add items.</p>
     {% endif %}
